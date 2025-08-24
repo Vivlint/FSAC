@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;800&display=swap" rel="stylesheet">
+  <title>Bilim Kulübü</title>
+</head>
+<body>
+  <header class="top-panel" role="banner">
+    <a class="brand" href="index.html" aria-label="Foundry — Science & Art Club">
+      <img class="logo" src="logo.png" alt="Foundry logo" />
+      <div class="title" aria-hidden="false">
+        <span class="title-line foundry">FOUNDRY</span>
+        <span class="title-line subtitle">Science &amp; Art Club</span>
+      </div>
+    </a>
+    <nav class="nav-actions" aria-label="Birincil menü">
+      <a class="nav-link" href="kadro.html">Kadro</a>
+      <a class="nav-link" href="etkinlikler.html">Etkinlikler</a>
+      <div class="dropdown">
+        <button class="dropdown-toggle nav-link" aria-haspopup="true" aria-expanded="false" aria-controls="teams-menu">
+          Ekipler
+          <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div id="teams-menu" class="dropdown-menu" role="menu" aria-label="Ekipler">
+          <a role="menuitem" tabindex="-1" class="dropdown-item" href="ekip1.html">Lorem ipsum 1</a>
+          <a role="menuitem" tabindex="-1" class="dropdown-item" href="ekip2.html">Lorem ipsum 2</a>
+          <a role="menuitem" tabindex="-1" class="dropdown-item" href="ekip3.html">Lorem ipsum 3</a>
+          <a role="menuitem" tabindex="-1" class="dropdown-item" href="ekip4.html">Lorem ipsum 4</a>
+          <a role="menuitem" tabindex="-1" class="dropdown-item" href="ekip5.html">Lorem ipsum 5</a>
+        </div>
+      </div>
+      <a class="nav-link" href="iletisim.html">İletişim</a>
+      <a class="nav-link cta" href="kulube-katil.html">Kulübe Katıl</a>
+    </nav>
+  </header>
+  <main class="site-main" id="main">
+    <section class="hero">
+      <h1>Bilim Kulübü</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id dictum urna.
+        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+      </p>
+    </section>
+
+    <section class="feature-grid" aria-label="Öne çıkan başlıklar">
+      <article class="card">
+        <h3>Atölyeler</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, impedit.</p>
+      </article>
+      <article class="card">
+        <h3>Konferanslar</h3>
+        <p>Fugit temporibus, aliquid labore vitae cumque asperiores autem possimus!</p>
+      </article>
+      <article class="card">
+        <h3>Projeler</h3>
+        <p>Quam, earum. Nisi cupiditate, commodi voluptate quis nesciunt iusto.</p>
+      </article>
+      <article class="card">
+        <h3>Yayınlar</h3>
+        <p>Tempore, illum. Voluptatum voluptates molestiae veniam. Laudantium, numquam?</p>
+      </article>
+      <article class="card">
+        <h3>Topluluk</h3>
+        <p>Modi id veniam quaerat natus neque et nobis ea.</p>
+      </article>
+      <article class="card">
+        <h3>Etkinlikler</h3>
+        <p>Alias omnis accusantium ipsum qui vero dignissimos voluptatum magni.</p>
+      </article>
+    </section>
+
+    <section class="longform" aria-label="Hakkımızda">
+      <h2>Hakkımızda</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, reprehenderit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, reiciendis.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, odit earum! Molestiae aliquid modi harum, quaerat, ipsam cumque voluptatem ratione doloribus asperiores dolore quibusdam, reprehenderit in. Dolorum impedit iste adipisci.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, aspernatur. Voluptatibus, eveniet rem! Aspernatur, dolorum reiciendis. Laborum illo sed cupiditate explicabo quaerat ducimus unde ipsam perspiciatis. Numquam eveniet facere voluptatum?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, odit! Illum cupiditate impedit at commodi veritatis quam dolores esse quos dicta eligendi nihil accusantium, molestias, id fugit. Incidunt, cupiditate mollitia!
+      </p>
+    </section>
+
+    <section class="register" id="register" aria-labelledby="register-title">
+      <h2 id="register-title">Etkinlik Kaydı</h2>
+      <form id="eventForm">
+        <input name="name" placeholder="Adınız" required />
+        <input name="email" type="email" placeholder="E-posta" required />
+        <input name="event" placeholder="Etkinlik adı" required />
+        <button type="submit">Gönder</button>
+      </form>
+      <div id="msg" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>

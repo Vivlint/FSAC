@@ -1,0 +1,290 @@
+/* Top panel layout */
+:root{
+  /* Brand colors */
+  --panel-bg:#5d0d0e;        /* primary */
+  --accent:#caa354;          /* secondary */
+  --bone:#f5f3e8;            /* bone white */
+  --muted:#d9cdb1;           /* soft tint for forms */
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+/* Academic serif for headings, keep sans for UI text */
+body{
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji',sans-serif;
+  color:#222;
+  background:#fff;
+}
+
+.top-panel{
+  background:var(--panel-bg);
+  color:var(--bone);
+  width:100%;
+  /* add a small left spacing (24px) from screen edge */
+  padding:10px 12px 10px 24px;
+  display:flex;
+  align-items:center; /* align nav with brand vertically */
+  gap: 8px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  transition: padding 180ms ease, box-shadow 180ms ease, backdrop-filter 180ms ease;
+  overflow-anchor: none; /* prevent scroll anchoring adjustments */
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px; /* ~20% smaller than 12px */
+  /* remove centering/max width so content hugs the left edge */
+  margin:0;
+  justify-content:flex-start;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none; /* prevent text selection */
+  text-decoration:none; /* remove link underline */
+  color:inherit; /* keep text color */
+  width: max-content; /* brand link only as wide as its content */
+  padding-inline-end: 12px; /* link sınırını biraz ileri taşı */
+}
+
+/* Right-side nav */
+.nav-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.nav-link{
+  color: var(--bone);
+  text-decoration:none;
+  font-weight:600;
+  font-size: 14px;
+  padding:8px 10px;
+  border-radius:8px;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.nav-link:hover{ background: rgba(255,255,255,0.08); }
+.nav-link.active{ background: rgba(255,255,255,0.16); }
+.nav-link.cta{
+  background: var(--accent);
+  color:#2d220d;
+}
+.nav-link.cta:hover{ filter:brightness(0.95); }
+
+.dropdown{ position:relative; }
+.dropdown-toggle{ cursor:pointer; border:0; background:transparent; }
+.dropdown-toggle i{ transition: transform 160ms ease; }
+.dropdown.open .dropdown-toggle i{ transform: rotate(180deg); }
+.dropdown-toggle .caret{ display:inline-block; transition: transform 160ms ease; }
+.dropdown.open .dropdown-toggle .caret{ transform: rotate(180deg); }
+/* Hide caret if FA is present by default rendering; show if icon font fails */
+.fa-solid + .caret{ display:none; }
+
+.dropdown-menu{
+  position:absolute;
+  top: calc(100% + 8px);
+  left:0;
+  min-width: 200px;
+  background:#fff;
+  color:#222;
+  border:1px solid #ececec;
+  border-radius:10px;
+  padding:6px;
+  display:none;
+  box-shadow: 0 10px 24px -12px rgba(0,0,0,0.45);
+  z-index: 1001;
+}
+.dropdown.open .dropdown-menu{ display:block; }
+.dropdown-item{
+  display:block;
+  padding:10px 10px;
+  border-radius:8px;
+  color:inherit;
+  text-decoration:none;
+}
+.dropdown-item:hover{ background:#f5f5f5; }
+
+@media (max-width: 640px){
+  .nav-actions{ gap:6px; }
+  .nav-link{ padding:6px 8px; font-size:13px; }
+}
+
+/* Logo: we size it as a square so that its diameter equals the combined
+   height of the two text lines (title + subtitle). We'll compute the text
+   block height and match it using clamp + font-size math. */
+
+/* Base (subtitle) font size controls the scale; title is 160% of this. */
+.title{
+  line-height:1; /* let us control exact math below */
+  display:flex;
+  flex-direction:column;
+}
+
+/* We use CSS custom properties to tie sizes together:
+   - --sub-fs is the subtitle font-size
+   - --title-scale is 1.6 (title is 60% bigger)
+   - --line-gap is a small gap between lines to avoid touching
+   The logo's block-size equals the computed total text height. */
+.brand{
+  /* progressive scaling variables */
+  --sub-fs: clamp(9.6px, 1.6vw, 16px);
+  --title-scale: 1.7; /* keep relative emphasis */
+  --line-gap: 0.12em;
+}
+
+.foundry{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif; /* academic tone */
+  font-weight:800;
+  font-size: calc(var(--sub-fs) * var(--title-scale));
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  color: var(--bone);
+}
+.subtitle{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  font-size: var(--sub-fs);
+  color: var(--accent);
+}
+
+/* Ensure subtitle occupies the same width as title:
+   We put both in a grid with one column sized to the widest content. */
+.title{
+  display:grid;
+  grid-template-columns: 1fr; /* single column */
+}
+.title .title-line{ grid-column: 1 / 2; }
+
+/* Equalize widths by making both inline-block and letting the grid pick max width */
+.title-line{
+  display:inline-block;
+  white-space:nowrap;
+}
+
+/* Now match the logo's size to the combined height of the two lines. */
+.logo{
+  display:block;
+  height: calc(
+    /* title line height */
+    (var(--sub-fs) * var(--title-scale))
+    + /* small gap */ var(--line-gap)
+    + /* subtitle line height */ var(--sub-fs)
+  );
+  width: auto;
+  aspect-ratio: 1 / 1; /* keep logo round square */
+  border-radius: 50%;
+  /* no scaling or animation on logo height */
+}
+
+/* Spacing below the panel and default content styles */
+.top-panel + h1{
+  margin:16px auto;
+  max-width:1200px;
+  padding:0 16px;
+}
+
+/* Main layout */
+.site-main{
+  display:block;
+}
+
+.hero{
+  max-width:1200px;
+  margin:0 auto;
+  padding:20px 16px 8px;
+}
+.hero h1{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  color: var(--panel-bg);
+  margin:0 0 6px 0;
+  font-size: clamp(20px, 3vw, 34px);
+}
+.hero p{ margin:0; max-width:60ch; }
+
+.feature-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:12px;
+  padding:16px;
+  max-width:1200px;
+  margin:0 auto;
+}
+.card{
+  border:1px solid #ececec;
+  border-radius:12px;
+  padding:14px;
+  background:#fff;
+}
+.card h3{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  margin:0 0 6px 0;
+  font-size: clamp(16px, 2.2vw, 22px);
+}
+.card p{ margin:0; color:#444; }
+
+.longform{
+  max-width:900px;
+  margin:4px auto 0;
+  padding:8px 16px 16px;
+}
+.longform h2{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  color: var(--panel-bg);
+  margin:0 0 8px 0;
+}
+.longform p{
+  line-height:1.7;
+  margin:0 0 12px 0;
+}
+
+.register{
+  max-width:600px;
+  margin:8px auto 24px;
+  padding:8px 16px 24px;
+}
+.register h2{
+  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  color: var(--panel-bg);
+  margin:0 0 8px 0;
+}
+
+/* Form basics (small polish) */
+form#eventForm{
+  max-width:520px;
+  margin:0 auto;
+  padding:0 16px 24px;
+  display:grid;
+  gap:10px;
+}
+#eventForm input{
+  padding:10px 12px;
+  border:1px solid #d0d5dd;
+  border-radius:8px;
+  font-size:16px;
+}
+#eventForm button{
+  background:#1f6feb;
+  color:#fff;
+  border:0;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+#eventForm button:hover{ background:#185bd1 }
+
+#msg{ max-width:520px; margin:12px auto; padding:0 16px; }
+
+/* Old shrink class removed; scale is controlled continuously via --scale */
+
+/* Responsive upscales */
+@media (min-width: 640px){
+  .feature-grid{ grid-template-columns: repeat(2, 1fr); gap:16px; padding:20px; }
+}
+@media (min-width: 960px){
+  .feature-grid{ grid-template-columns: repeat(3, 1fr); gap:18px; padding:24px; }
+}
