@@ -1,8 +1,81 @@
+// Smooth page navigation system
+function initSmoothNavigation() {
+  // Handle all navigation links
+  document.querySelectorAll('.nav-link, .brand').forEach(link => {
+    // Skip external links and anchors
+    if (link.getAttribute('href')?.startsWith('#') || link.getAttribute('href')?.startsWith('http')) {
+      return;
+    }
+    
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetUrl = this.getAttribute('href');
+      
+      if (!targetUrl || targetUrl === window.location.pathname.split('/').pop()) {
+        return; // Don't navigate to same page
+      }
+      
+      // Add loading state
+      document.body.classList.add('page-loading');
+      link.classList.add('loading');
+      
+      // Create invisible iframe to preload the page
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.onload = function() {
+        // Wait a bit for smooth transition
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 600);
+      };
+      iframe.onerror = function() {
+        // Fallback: navigate immediately if preload fails
+        window.location.href = targetUrl;
+      };
+      
+      document.body.appendChild(iframe);
+      iframe.src = targetUrl;
+      
+      // Fallback timeout
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 2000);
+    });
+  });
+}
+
 // Sticky header progressive shrink on scroll
 (function(){
   const header = document.querySelector('.top-panel');
   const brand = document.querySelector('.brand');
   if(!header) return;
+
+  // Ensure nav-controls are outside the sliding nav on mobile
+  try {
+    const navActions = header.querySelector('.nav-actions');
+    const topLevelControls = Array.from(header.children).find(el => el.classList && el.classList.contains('nav-controls'));
+    const nestedControls = navActions ? navActions.querySelector('.nav-controls') : null;
+
+    // If controls exist only inside nav-actions, move them before the mobile toggle
+    if (!topLevelControls && nestedControls) {
+      const mobileToggle = document.getElementById('mobileMenuToggle');
+      if (mobileToggle) {
+        header.insertBefore(nestedControls, mobileToggle);
+      } else {
+        header.insertBefore(nestedControls, navActions);
+      }
+    }
+
+    // If both exist (duplicate), remove the nested one so it doesn't show in open menu
+    const nowTopLevel = Array.from(header.children).find(el => el.classList && el.classList.contains('nav-controls'));
+    const stillNested = navActions ? navActions.querySelector('.nav-controls') : null;
+    if (nowTopLevel && stillNested) {
+      stillNested.remove();
+    }
+  } catch (e) {
+    // Fail gracefully if structure differs
+    console.warn('Nav controls normalization skipped:', e);
+  }
 
   // Shrink only the panel padding over 100px of scroll
   let SCROLL_RANGE = 100; // üst limit 100px
@@ -40,6 +113,74 @@
     }
   });
 
+  // Theme toggle functionality using global settings
+  const themeToggle = document.getElementById('themeToggle');
+  
+  if(themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme = FoundrySettings.theme === 'dark' ? 'light' : 'dark';
+      
+      // Add rotation animation
+      themeToggle.classList.add('rotating');
+      setTimeout(() => themeToggle.classList.remove('rotating'), 500);
+      
+      // Change theme globally
+      FoundrySettings.setTheme(newTheme);
+      
+      // Update icon after animation
+      setTimeout(() => {
+        FoundrySettings.updateUI();
+      }, 250);
+    });
+  }
+
+  // Language selector functionality using global settings
+  const langToggle = document.getElementById('langToggle');
+  const langMenu = document.getElementById('langMenu');
+  const langSelector = langToggle?.parentElement;
+  
+  if(langToggle && langMenu && langSelector) {
+    langToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      langSelector.classList.toggle('open');
+      langToggle.setAttribute('aria-expanded', 
+        langSelector.classList.contains('open') ? 'true' : 'false'
+      );
+    });
+    
+    // Language option selection
+    langMenu.addEventListener('click', (e) => {
+      if(e.target.classList.contains('lang-option')) {
+        e.preventDefault();
+        const selectedLang = e.target.getAttribute('data-lang');
+        if(selectedLang) {
+          langSelector.classList.remove('open');
+          langToggle.setAttribute('aria-expanded', 'false');
+          
+          // Set language globally
+          FoundrySettings.setLanguage(selectedLang);
+          FoundrySettings.updateUI();
+        }
+      }
+    });
+    
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if(!langSelector.contains(e.target)) {
+        langSelector.classList.remove('open');
+        langToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && langSelector.classList.contains('open')) {
+        langSelector.classList.remove('open');
+        langToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   // Navigation now uses standard anchors with target _blank; no JS needed
 
   // Dropdown toggle for Teams
@@ -67,5 +208,121 @@
     document.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape') close();
     });
+
+    // Add smooth navigation to dropdown items
+    menu.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        
+        if (!targetUrl || targetUrl === window.location.pathname.split('/').pop()) {
+          return;
+        }
+        
+        // Close dropdown first
+        close();
+        
+        // Add loading state
+        document.body.classList.add('page-loading');
+        item.classList.add('loading');
+        
+        // Navigate after smooth transition
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 600);
+      });
+    });
+  }
+
+  // Ensure Teams dropdown has 5 items (ekip1..ekip5) consistently on all pages
+  try {
+    const teamsMenu = document.getElementById('teams-menu');
+    if (teamsMenu) {
+      const existing = new Set(Array.from(teamsMenu.querySelectorAll('.dropdown-item')).map(a => a.getAttribute('href')));
+      for (let i = 1; i <= 5; i++) {
+        const href = `ekip${i}.html`;
+        if (!existing.has(href)) {
+          const a = document.createElement('a');
+          a.className = 'dropdown-item';
+          a.setAttribute('role', 'menuitem');
+          a.setAttribute('tabindex', '-1');
+          a.href = href;
+          a.textContent = `Lorem ipsum ${i}`;
+          teamsMenu.appendChild(a);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Teams dropdown normalization skipped:', e);
+  }
+
+  // Initialize smooth navigation
+  initSmoothNavigation();
+
+  // Mobile menu toggle with inline header animation
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const navActions = document.querySelector('.nav-actions');
+  const body = document.body;
+  
+  if (mobileMenuToggle && navActions) {
+    function openMobileMenu() {
+      navActions.classList.add('mobile-open');
+      mobileMenuToggle.classList.add('menu-open');
+      body.classList.add('mobile-menu-open');
+      mobileMenuToggle.querySelector('i').classList.replace('fa-bars', 'fa-xmark');
+      mobileMenuToggle.setAttribute('aria-expanded', 'true');
+      mobileMenuToggle.setAttribute('aria-label', 'Menüyü kapat');
+    }
+    
+    function closeMobileMenu() {
+      navActions.classList.remove('mobile-open');
+      mobileMenuToggle.classList.remove('menu-open');
+      body.classList.remove('mobile-menu-open');
+      mobileMenuToggle.querySelector('i').classList.replace('fa-xmark', 'fa-bars');
+      mobileMenuToggle.setAttribute('aria-expanded', 'false');
+      mobileMenuToggle.setAttribute('aria-label', 'Menüyü aç');
+    }
+    
+    mobileMenuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navActions.classList.contains('mobile-open');
+      
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+    
+    // Close menu when clicking outside header
+    document.addEventListener('click', (e) => {
+      if (!document.querySelector('.top-panel').contains(e.target) && 
+          navActions.classList.contains('mobile-open')) {
+        closeMobileMenu();
+      }
+    });
+    
+    // Close mobile menu when clicking nav links
+    navActions.addEventListener('click', (e) => {
+      if (e.target.classList.contains('nav-link') && !e.target.classList.contains('dropdown-toggle')) {
+        setTimeout(closeMobileMenu, 300); // Delay for smooth animation
+      }
+    });
+    
+    // Close mobile menu on window resize if desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
+      }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navActions.classList.contains('mobile-open')) {
+        closeMobileMenu();
+      }
+    });
   }
 })();
+
+
