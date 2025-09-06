@@ -91,7 +91,7 @@ html:not(.ready) body {
   --muted:#d9cdb1;           /* soft tint for forms */
   
   /* Theme colors */
-  --bg-primary: #fff;
+  --bg-primary: #f5f3e8;
   --bg-secondary: #f8f9fa;
   --text-primary: #222;
   --text-secondary: #444;
