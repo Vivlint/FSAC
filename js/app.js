@@ -348,7 +348,6 @@ function initSmoothNavigation() {
     const formData = new FormData(eventForm);
     const name = formData.get('name');
     const email = formData.get('email');
-    const eventName = formData.get('event');
 
     // 4. Veriyi Supabase'e Gönderme
     const { data, error } = await supabase
@@ -357,7 +356,6 @@ function initSmoothNavigation() {
         { 
           name: id, 
           email: email, 
-          event: created_at 
           // Not: Buradaki 'name', 'email', 'event' isimleri Supabase tablonuzdaki sütun adlarıyla eşleşmelidir.
         }
       ]);
