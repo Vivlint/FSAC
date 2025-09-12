@@ -354,7 +354,7 @@ function initSmoothNavigation() {
       .from('newsletter_emails') // Supabase'de oluşturduğunuz tablonun adını yazın
       .insert([
         { 
-          name: id, 
+          name: name, 
           email: email, 
           // Not: Buradaki 'name', 'email', 'event' isimleri Supabase tablonuzdaki sütun adlarıyla eşleşmelidir.
         }
