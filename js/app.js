@@ -323,8 +323,8 @@ function initSmoothNavigation() {
       }
     });
   }
- const SUPABASE_URL = 'https://PROJE_IDNIZ.suphttps://gmlggmxtovwevwjbhwmo.supabase.coabase.co'; // Supabase projenizin URL'si
- const SUPABASE_ANON_KEY = 'ANON_PUBLICeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtbGdnbXh0b3Z3ZXZ3amJod21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2ODg3NjEsImV4cCI6MjA3MzI2NDc2MX0.jDAwFcv1Q06Vtm_CeS4EJvWImLaItPr12THxqmKC_OY_ANAHTARINIZ';   // Supabase anon public anahtarınız
+ const SUPABASE_URL = 'https://gmlggmxtovwevwjbhwmo.supabase.co'; // Supabase projenizin URL'si
+ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtbGdnbXh0b3Z3ZXZ3amJod21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2ODg3NjEsImV4cCI6MjA3MzI2NDc2MX0.jDAwFcv1Q06Vtm_CeS4EJvWImLaItPr12THxqmKC_OY';   // Supabase anon public anahtarınız
 
  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
