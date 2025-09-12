@@ -323,6 +323,63 @@ function initSmoothNavigation() {
       }
     });
   }
+ const SUPABASE_URL = 'https://PROJE_IDNIZ.suphttps://gmlggmxtovwevwjbhwmo.supabase.coabase.co'; // Supabase projenizin URL'si
+ const SUPABASE_ANON_KEY = 'ANON_PUBLICeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtbGdnbXh0b3Z3ZXZ3amJod21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2ODg3NjEsImV4cCI6MjA3MzI2NDc2MX0.jDAwFcv1Q06Vtm_CeS4EJvWImLaItPr12THxqmKC_OY_ANAHTARINIZ';   // Supabase anon public anahtarınız
+
+ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+ // 2. Form Elemanlarını Seçme
+ const eventForm = document.getElementById('eventForm');
+ const msgDiv = document.getElementById('msg');
+
+ // 3. Form Gönderme Olayını Dinleme
+ if (eventForm) {
+  eventForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
+
+    // Butonu devre dışı bırak ve "Gönderiliyor..." yaz
+    const submitButton = eventForm.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Gönderiliyor...';
+    msgDiv.textContent = ''; // Eski mesajları temizle
+
+    // Form verilerini al
+    const formData = new FormData(eventForm);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const eventName = formData.get('event');
+
+    // 4. Veriyi Supabase'e Gönderme
+    const { data, error } = await supabase
+      .from('newsletter_emails') // Supabase'de oluşturduğunuz tablonun adını yazın
+      .insert([
+        { 
+          name: id, 
+          email: email, 
+          event: created_at 
+          // Not: Buradaki 'name', 'email', 'event' isimleri Supabase tablonuzdaki sütun adlarıyla eşleşmelidir.
+        }
+      ]);
+
+    if (error) {
+      // Hata varsa göster
+      console.error('Supabase Hatası:', error);
+      msgDiv.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+      msgDiv.style.color = 'red';
+    } else {
+      // Başarılıysa mesaj göster ve formu temizle
+      msgDiv.textContent = 'Kaydınız başarıyla alındı!';
+      msgDiv.style.color = 'green';
+      eventForm.reset();
+    }
+
+    // Butonu tekrar aktif et
+    submitButton.disabled = false;
+    submitButton.textContent = originalButtonText;
+  });
+}
+  
 })();
 
 
