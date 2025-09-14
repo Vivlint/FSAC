@@ -364,11 +364,13 @@ function initSmoothNavigation() {
       // Hata varsa göster
       console.error('Supabase Hatası:', error);
       msgDiv.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
-      msgDiv.style.color = 'red';
+      const panelColor = getComputedStyle(document.documentElement).getPropertyValue('--panel-bg').trim();
+      msgDiv.style.color = panelColor;
     } else {
       // Başarılıysa mesaj göster ve formu temizle
       msgDiv.textContent = 'Kaydınız başarıyla alındı!';
-      msgDiv.style.color = 'green';
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      msgDiv.style.color = accentColor;
       eventForm.reset();
     }
 

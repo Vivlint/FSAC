@@ -665,6 +665,7 @@ body{
 }
 
 /* Form basics (small polish) */
+/*
 form#eventForm{
   max-width:520px;
   margin:0 auto;
@@ -690,6 +691,46 @@ form#eventForm{
   font-weight:600;
 }
 #eventForm button:hover{ background:#185bd1 }
+*/
+
+#eventForm {
+  display: grid;
+  gap: 10px; 
+  flex-wrap: wrap; 
+}
+
+#eventForm input {
+  flex-grow: 1; 
+  padding: 12px 15px;
+  font-size: 16px;
+  color: var(--text-primary); 
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color); 
+  border-radius: 6px; 
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#eventForm input:focus {
+  outline: none; 
+  border-color: var(--accent); 
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb, 202, 163, 84), 0.25); 
+}
+
+#eventForm button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; 
+  background-color: var(--accent); 
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#eventForm button:hover {
+  background-color: #b38f4a; 
+}
 
 #msg{ max-width:520px; margin:12px auto; padding:0 16px; }
 
