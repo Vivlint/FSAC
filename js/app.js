@@ -1,7 +1,7 @@
 // Smooth page navigation system
 function initSmoothNavigation() {
   // Handle all navigation links
-  document.querySelectorAll('.nav-link, .brand').forEach(link => {
+  document.querySelectorAll('.nav-link, .nav-link-bottom, .brand').forEach(link => {
     // Skip external links and anchors
     if (link.getAttribute('href')?.startsWith('#') || link.getAttribute('href')?.startsWith('http')) {
       return;
