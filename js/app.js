@@ -353,8 +353,7 @@ function initSmoothNavigation() {
     const { data, error } = await supabase
       .from('newsletter_emails') // Supabase'de oluşturduğunuz tablonun adını yazın
       .insert([
-        { 
-          name: name, 
+        {  
           email: email, 
           // Not: Buradaki 'name', 'email', 'event' isimleri Supabase tablonuzdaki sütun adlarıyla eşleşmelidir.
         }
