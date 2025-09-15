@@ -698,7 +698,7 @@ form#eventForm{
 }
 #eventForm button:hover{ background:#185bd1 }
 */
-
+/*
 #eventForm {
   display: flex;
   flex-direction: column;
@@ -742,7 +742,7 @@ form#eventForm{
 #eventForm button:hover {
   background-color: #b38f4a; 
 }
-
+*/
 .site-footer {
     background-color: var(--muted); /* Koyu gri zemin rengi */
     color: var(--bg-primary-anti); /* Açık gri metin rengi */
