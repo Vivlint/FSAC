@@ -361,7 +361,14 @@ function initSmoothNavigation() {
     if (error) {
       // Hata varsa göster
       console.error('Supabase Hatası:', error);
-      msgDiv.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+
+      // E-posta zaten mevcutsa özel bir mesaj göster (unique constraint violation)
+      if (error.code === '23505') {
+        msgDiv.textContent = 'Bu e-posta adresi zaten kayıtlı.';
+      } else {
+        msgDiv.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+      }
+      
       const panelColor = getComputedStyle(document.documentElement).getPropertyValue('--panel-bg').trim();
       msgDiv.style.color = panelColor;
     } else {
