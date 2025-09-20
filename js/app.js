@@ -367,7 +367,7 @@ function initSmoothNavigation() {
     } else {
       // Başarılıysa mesaj göster ve formu temizle
       msgDiv.textContent = 'Kaydınız başarıyla alındı!';
-      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-primary-anti').trim();
       msgDiv.style.color = accentColor;
       eventForm.reset();
     }
