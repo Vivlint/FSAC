@@ -417,7 +417,7 @@ body{
   .nav-actions {
     position: absolute;
     top: 0;
-    right: -100%;
+    right: 0;
     height: 100%;
     display: flex;
     align-items: center;
@@ -425,14 +425,19 @@ body{
     gap: 12px;
     padding: 0 60px; /* Equal padding on both sides */
     background: var(--panel-bg);
-    transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
     z-index: 1200; /* ensure above page content */
     width: 100%; /* Full width for better centering */
+    pointer-events: none;
+    visibility: hidden;
   }
   
   .nav-actions.mobile-open {
-    right: 0;
+    transform: translateX(0);
+    pointer-events: auto;
+    visibility: visible;
   }
   
   .nav-link {
