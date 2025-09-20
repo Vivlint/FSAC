@@ -751,7 +751,9 @@ form#eventForm{
 
 .footer-container {
     display: flex; /* Esnek kutu düzeni */
-    justify-content: space-between; /* Sütunlar arasında boşluk bırakma */
+    justify-content: center; /* Sütunları merkeze hizala */
+    align-items: flex-start; /* Üstten hizala */
+    gap: 40px; /* Sütunlar arasında eşit boşluk */
     flex-wrap: wrap; /* Gerekirse alt satıra geçme */
     padding: 15px 80px; /* İç boşluklar */
     max-width: 1200px;
@@ -760,35 +762,46 @@ form#eventForm{
 
 .footer-section {
     flex: 1; /* Her sütun eşit genişlikte */
-    margin: 15px;
+    max-width: 280px; /* Maksimum genişlik belirle */
     min-width: 250px; /* Sütunların minimum genişliği */
+    display: flex;
     flex-direction: column; /* İçeriği dikeyde sıralar */
     align-items: center; /* Yatayda merkeze hizalar */
-    text-align: start; /* Metinleri ortalar */
+    text-align: center; /* Metinleri ortalar */
 }
 
 .footer-section h3 {
     font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
     font-size: 1.5rem;
     margin-bottom: 20px;
+    margin-top: 0; /* Üst margin'i sıfırla */
+    text-align: center; /* Başlıkları ortala */
+    width: 100%; /* Tam genişlik */
 }
 
 /* Bağlantılar bölümü */
 .footer-section.links {
    display: flex;
    flex-direction: column;
+   align-items: center; /* Merkeze hizala */
 }
 .footer-section.links ul {
     list-style: none;
     padding: 0;
     margin-top: 0px;
+    text-align: center; /* Liste öğelerini ortala */
+}
+
+.footer-section.links li {
+    margin-bottom: 1px; /* Liste öğeleri arasında boşluk */
 }
 
 .footer-section.links a {
     color: var(--bg-primary-anti);
     text-decoration: none;
-    line-height: 0; /* Satır aralığı */
-    transition: color 0.3s;
+    line-height: 1.5; /* Satır aralığını düzelt */
+    display: block; /* Block element yap */
+    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Ultra smooth transition */
 }
 
 .footer-section.links a:hover {
@@ -796,9 +809,15 @@ form#eventForm{
 }
 
 /* Bülten bölümü */
+.footer-section.newsletter {
+    align-items: center; /* Merkeze hizala */
+}
+
 .footer-section.newsletter form {
     display: flex;
     flex-direction: column;
+    width: 100%; /* Tam genişlik */
+    max-width: 250px; /* Maksimum genişlik */
 }
 
 .footer-section.newsletter input {
@@ -807,6 +826,7 @@ form#eventForm{
     background-color: transparent;
     border: 1.5px solid var(--bg-primary-anti);
     color: var(--bg-primary-anti);
+    font-size: 1rem;
     margin-bottom: 10px;
     border-radius: 8px; 
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -839,10 +859,15 @@ form#eventForm{
 }
 
 /* İletişim bölümü */
+.footer-section.contact {
+    align-items: center; /* Merkeze hizala */
+    text-align: center; /* İçeriği ortala */
+}
+
 .footer-section.contact a {
     color: var(--bg-primary-anti);
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Ultra smooth transition */
 }
 
 .footer-section.contact a:hover {
@@ -852,10 +877,14 @@ form#eventForm{
 .footer-section.contact p {
     margin-bottom: 10px;
     margin-top: 0px;
+    text-align: center; /* Paragrafları ortala */
 }
 
 .social-links {
     margin-top: 0px;
+    display: flex;
+    justify-content: center; /* Sosyal medya linklerini ortala */
+    gap: 10px; /* Linkler arasında boşluk */
 }
 
 .social-links a {

@@ -346,7 +346,6 @@ function initSmoothNavigation() {
 
     // Form verilerini al
     const formData = new FormData(eventForm);
-    const name = formData.get('name');
     const email = formData.get('email');
 
     // 4. Veriyi Supabase'e Gönderme
