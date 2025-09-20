@@ -116,6 +116,7 @@ html:not(.ready) body {
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+html{overflow-x:hidden;}
 /* Academic serif for headings, keep sans for UI text */
 body{
   font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji',sans-serif;
@@ -123,6 +124,10 @@ body{
   background: var(--bg-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+}
+
+body.mobile-menu-open{
+  overflow: hidden;
 }
 
 .top-panel{
@@ -410,29 +415,29 @@ body{
   
   /* Ensure X button stays in same position as hamburger */
   .mobile-menu-toggle.menu-open {
-    position: relative;
-    z-index: 1300; /* Stay above nav menu */
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 1400; /* Stay above nav menu */
   }
-  
+
   /* Navigation actions - slide from right within header */
   .nav-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
+    position: fixed;
+    inset: 0;
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center; /* Center the navigation links */
-    gap: 12px;
-    padding: 0 60px; /* Equal padding on both sides */
+    gap: 18px;
+    padding: 104px 24px 40px;
     background: var(--panel-bg);
     transform: translateX(100%);
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    white-space: nowrap;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: 1200; /* ensure above page content */
-    width: 100%; /* Full width for better centering */
     pointer-events: none;
     visibility: hidden;
+    overflow-y: auto;
   }
   
   .nav-actions.mobile-open {
@@ -442,12 +447,14 @@ body{
   }
   
   .nav-link {
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 6px;
+    width: min(320px, 80vw);
+    padding: 12px 16px;
+    font-size: clamp(16px, 4.5vw, 19px);
+    border-radius: 8px;
+    text-align: center;
     opacity: 0;
-    transform: translateY(20px) scale(0.9);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   /* Staggered animation for nav links sliding in with bounce effect */
@@ -479,36 +486,43 @@ body{
   }
 
   .dropdown {
-    position: relative;
+    position: static;
+    width: min(320px, 80vw);
+  }
+  
+  .dropdown-toggle {
+    width: 100%;
   }
   
   .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0; /* Changed from right to left for mobile */
-    min-width: 180px;
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+    min-width: unset;
     background: var(--panel-bg); /* Match mobile header background */
     border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 6px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    z-index: 1300; /* above mobile nav overlay */
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: none;
     display: none;
   }
   
   .dropdown.open .dropdown-menu {
-    display: block; /* Show when dropdown is open */
+    display: flex; /* Show when dropdown is open */
+    flex-direction: column;
+    gap: 6px;
   }
   
   .dropdown-item {
     display: block;
-    padding: 8px 12px;
-    font-size: 13px;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: clamp(15px, 4vw, 18px);
     color: var(--bone); /* Mobile color */
     text-decoration: none;
     border-radius: 6px;
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     transition: all 0.3s ease;
   }
   
@@ -528,7 +542,6 @@ body{
   .dropdown.open .dropdown-item:nth-child(4) { transition-delay: 0.2s; }
   .dropdown.open .dropdown-item:nth-child(5) { transition-delay: 0.25s; }
 }
-
 @media (max-width: 640px){
   .top-panel {
     padding: 6px 12px;
