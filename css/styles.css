@@ -89,23 +89,29 @@ html:not(.ready) body {
   --accent:#caa354;          /* secondary */
   --bone:#f5f3e8;            /* bone white */
   --muted:#d9cdb1;           /* soft tint for forms */
+  --tree: #597d51; 
+
   
   /* Theme colors */
   --bg-primary: #f5f3e8;
   --bg-secondary: #d9cdb1;
   --text-primary: #120302;
   --text-secondary: #3e2322;
-  --border-color: #E6E0C6;
-  --bg-primary-anti: #1a1a1a;
+  --border-color: #404040;
+  --bg-primary-anti: #1e1b19;
 }
 
 /* Dark mode */
 [data-theme="dark"] {
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --text-primary: #e0e0e0;
-  --text-secondary: #b0b0b0;
-  --border-color: #404040;
+  --border-color: #d9cdb1;
+  --bg-primary: #1e1b19; /* Koyu Gri / Kahverengi */
+  --text-primary: #f5f3e8; /* Açık Kemik Rengi */
+  --bg-secondary: #322f2c; /* Daha Koyu İkincil Arka Plan */
+  --text-secondary: #d9cdb1; /* Muted Renk */
+  --panel-bg: #7b2a2b; /* Paneller için biraz daha açık bordo */
+  --accent: #d5b97d; /* Aksan rengi daha canlı */
+  --bg-primary-anti: #322f2c;
+  --muted: #8c6e64;
 }
 
 *{box-sizing:border-box}
@@ -855,7 +861,7 @@ form#eventForm{
 
 .footer-section.newsletter button:hover {
     background-color: var(--bg-primary-anti);
-    color: var(--bone);
+    color: var(--muted);
 }
 
 /* İletişim bölümü */

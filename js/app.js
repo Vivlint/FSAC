@@ -348,6 +348,18 @@ function initSmoothNavigation() {
     const formData = new FormData(eventForm);
     const email = formData.get('email');
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      msgDiv.textContent = 'Lütfen geçerli bir e-posta adresi girin.';
+      const panelColor = getComputedStyle(document.documentElement).getPropertyValue('--panel-bg').trim();
+      msgDiv.style.color = panelColor;
+
+      // Butonu tekrar aktif et ve işlemi durdur
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+      return; 
+    }
+
     // 4. Veriyi Supabase'e Gönderme
     const { data, error } = await supabase
       .from('newsletter_emails') // Supabase'de oluşturduğunuz tablonun adını yazın
@@ -374,7 +386,7 @@ function initSmoothNavigation() {
     } else {
       // Başarılıysa mesaj göster ve formu temizle
       msgDiv.textContent = 'Kaydınız başarıyla alındı!';
-      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-primary-anti').trim();
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--tree').trim();
       msgDiv.style.color = accentColor;
       eventForm.reset();
     }
