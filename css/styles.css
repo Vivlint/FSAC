@@ -755,7 +755,7 @@ form#eventForm{
     align-items: flex-start; /* Üstten hizala */
     gap: 40px; /* Sütunlar arasında eşit boşluk */
     flex-wrap: wrap; /* Gerekirse alt satıra geçme */
-    padding: 15px 80px; /* İç boşluklar */
+    padding: 20px 80px 5px 80px; /* İç boşluklar */
     max-width: 1200px;
     margin: 0 auto;
 }
