@@ -311,6 +311,8 @@ function initSmoothNavigation() {
     }
     
     navActions.style.setProperty('--scale-factor', scaleFactor);
+    // Ensure transform-origin stays right-anchored
+    navActions.style.transformOrigin = 'right center';
   }
   
   // Throttle function for performance

@@ -384,6 +384,7 @@ body.mobile-menu-open{
     overflow: visible !important;
     flex-direction: row;
     gap: 8px;
+    justify-content: flex-end; /* Keep right alignment on desktop too */
   }
   
   .mobile-menu-close {
@@ -495,31 +496,35 @@ body.mobile-menu-open{
     position: absolute;
     top: 0;
     right: 0;
+    left: auto; /* Ensure it doesn't extend to the left */
     height: 100%;
     display: flex;
-    flex-direction: row; /* Keep horizontal layout */
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: clamp(2px, 0.8vw, 4px); /* Dynamic gap that gets smaller on tiny screens */
-    padding: 0 clamp(8px, 2vw, 18px); /* Dynamic padding */
+    justify-content: flex-end; /* Anchor buttons to the right */
+    gap: clamp(2px, 0.8vw, 4px);
+    padding: 0 clamp(8px, 2vw, 18px);
     background: var(--panel-bg);
     transform: translateX(100%);
     transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), --scale-factor 0.2s ease;
     white-space: nowrap;
     z-index: 1200;
-    width: 100%;
+    width: auto; /* Changed from 100% to auto to prevent overflow */
+    min-width: fit-content; /* Ensure it fits content */
+    max-width: calc(100% - 60px); /* Leave space for hamburger button */
     pointer-events: none;
     visibility: hidden;
     box-sizing: border-box;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: visible; /* Changed to visible to prevent clipping */
     /* Dynamic scaling based on viewport width */
     --scale-factor: 1;
     transform: translateX(100%) scale(var(--scale-factor));
-    transform-origin: center right; /* Scale from the right edge */
+    transform-origin: right center; /* Scale from the right edge, stay anchored */
   }
   
   .nav-actions.mobile-open {
     transform: translateX(0) scale(var(--scale-factor));
+    transform-origin: right center; /* Keep right anchor when open */
     pointer-events: auto;
     visibility: visible;
   }
@@ -636,6 +641,9 @@ body.mobile-menu-open{
   .nav-actions {
     gap: 1px; /* Minimal gap on ultra small screens */
     padding: 0 clamp(4px, 1vw, 8px);
+    justify-content: flex-end; /* Keep right alignment on ultra small screens */
+    width: auto; /* Don't force full width */
+    min-width: fit-content;
   }
   
   .nav-link, .mobile-menu-close {
