@@ -334,7 +334,7 @@ function initSmoothNavigation() {
     
     // Close mobile menu on window resize if desktop
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > 900) { // Updated breakpoint
         closeMobileMenu();
       }
     });
