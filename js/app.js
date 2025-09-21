@@ -278,9 +278,19 @@ function initSmoothNavigation() {
 
   // Mobile menu toggle with inline header animation
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  const mobileMenuClose = document.getElementById('mobileMenuClose');
+  let mobileMenuClose = document.getElementById('mobileMenuClose');
   const navActions = document.querySelector('.nav-actions');
   const body = document.body;
+  
+  // Create close button if it doesn't exist
+  if (navActions && !mobileMenuClose) {
+    mobileMenuClose = document.createElement('button');
+    mobileMenuClose.className = 'mobile-menu-close';
+    mobileMenuClose.id = 'mobileMenuClose';
+    mobileMenuClose.setAttribute('aria-label', 'Menüyü kapat');
+    mobileMenuClose.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    navActions.insertBefore(mobileMenuClose, navActions.firstChild);
+  }
   
   if (mobileMenuToggle && mobileMenuClose && navActions) {
     function openMobileMenu() {

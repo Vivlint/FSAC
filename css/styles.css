@@ -162,6 +162,11 @@ body.mobile-menu-open{
   margin-left: auto; /* Push everything after this to the right */
 }
 
+/* Desktop: hide mobile close button */
+.mobile-menu-close {
+  display: none;
+}
+
 /* Right controls - positioned first in nav actions */
 .nav-controls{
   display:flex;
@@ -419,29 +424,33 @@ body.mobile-menu-open{
     display: none;
   }
   
-  /* Mobile close button - only visible when menu is open */
-  .mobile-menu-close {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--bone);
-    font-size: 20px;
-    padding: 8px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-    position: absolute;
-    top: 8px;
-    right: 16px;
-    z-index: 1300;
-  }
-  
-  .mobile-menu-close:hover {
+/* Mobile close button - only visible when menu is open */
+.mobile-menu-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--bone);
+  font-size: 20px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%); /* Center vertically like hamburger button */
+  z-index: 1300;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}  .mobile-menu-close:hover {
     background: rgba(255,255,255,0.08);
   }
   
   .nav-actions.mobile-open .mobile-menu-close {
-    display: block;
+    display: flex;
   }
   
   /* Navigation actions - slide from right within header */
@@ -451,20 +460,22 @@ body.mobile-menu-open{
     right: 0;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Keep horizontal layout */
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: clamp(40px, 8vh, 60px) 18px clamp(20px, 4vh, 30px);
+    gap: 8px;
+    padding: 0 60px 0 18px; /* Extra right padding for close button */
     background: var(--panel-bg);
     transform: translateX(100%);
     transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
-    z-index: 1200; /* ensure above page content */
-    width: 100%; /* Full width for better centering */
+    z-index: 1200;
+    width: 100%;
     pointer-events: none;
     visibility: hidden;
     box-sizing: border-box;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    overflow-y: hidden;
   }
   
   .nav-actions.mobile-open {
@@ -474,20 +485,20 @@ body.mobile-menu-open{
   }
   
   .nav-link {
-    padding: clamp(8px, 1.8vw, 12px) clamp(12px, 2.5vw, 16px);
-    font-size: clamp(14px, 3.8vw, 18px);
+    padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 10px);
+    font-size: clamp(11px, 3vw, 14px);
     border-radius: 6px;
     opacity: 0;
-    transform: translateY(16px) scale(0.94);
+    transform: translateX(20px);
     transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: center;
-    min-width: 120px;
+    flex-shrink: 0; /* Prevent shrinking */
   }
   
-  /* Staggered animation for nav links sliding in with bounce effect */
+  /* Staggered animation for nav links sliding in from right */
   .nav-actions.mobile-open .nav-link {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(0);
   }
   
   .nav-actions.mobile-open .nav-link:nth-child(2) { 
@@ -521,7 +532,7 @@ body.mobile-menu-open{
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: clamp(150px, 70vw, 220px);
+    min-width: clamp(150px, 40vw, 200px);
     background: var(--panel-bg);
     border: 1px solid var(--accent);
     border-radius: 8px;
