@@ -292,6 +292,38 @@ function initSmoothNavigation() {
     navActions.insertBefore(mobileMenuClose, navActions.firstChild);
   }
   
+  // Dynamic scaling function for mobile nav
+  function updateMobileNavScale() {
+    if (!navActions) return;
+    
+    const viewportWidth = window.innerWidth;
+    // Calculate scale factor: 1.0 at 900px, down to 0.8 at 320px
+    // Formula: scale = 1 - (900 - viewportWidth) * 0.2 / (900 - 320)
+    let scaleFactor = 1;
+    
+    if (viewportWidth < 900) {
+      const minWidth = 320;  // Minimum expected mobile width
+      const maxWidth = 900;  // Breakpoint width
+      const minScale = 0.8;  // Minimum scale (80% = 20% reduction)
+      const maxScale = 1.0;  // Maximum scale
+      
+      scaleFactor = maxScale - ((maxWidth - viewportWidth) / (maxWidth - minWidth)) * (maxScale - minScale);
+      scaleFactor = Math.max(minScale, Math.min(maxScale, scaleFactor)); // Clamp between min and max
+    }
+    
+    navActions.style.setProperty('--scale-factor', scaleFactor);
+  }
+  
+  // Throttle function for performance
+  let scaleUpdateTimeout;
+  function throttledScaleUpdate() {
+    if (scaleUpdateTimeout) clearTimeout(scaleUpdateTimeout);
+    scaleUpdateTimeout = setTimeout(updateMobileNavScale, 16); // ~60fps
+  }
+  
+  // Initialize scale on load
+  updateMobileNavScale();
+  
   if (mobileMenuToggle && mobileMenuClose && navActions) {
     function openMobileMenu() {
       navActions.classList.add('mobile-open');
@@ -334,6 +366,7 @@ function initSmoothNavigation() {
     
     // Close mobile menu on window resize if desktop
     window.addEventListener('resize', () => {
+      throttledScaleUpdate(); // Update scale on resize with throttling
       if (window.innerWidth > 900) { // Updated breakpoint
         closeMobileMenu();
       }
