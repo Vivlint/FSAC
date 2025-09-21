@@ -409,6 +409,8 @@ body.mobile-menu-open{
     order: 1;
     flex-shrink: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1100; /* Ensure brand stays above nav-actions */
+    position: relative; /* Create stacking context */
   }
   
   /* Hide logo when mobile menu is open */
@@ -416,6 +418,7 @@ body.mobile-menu-open{
     opacity: 0;
     transform: translateX(-20px);
     pointer-events: none;
+    z-index: 1100; /* Keep z-index when hidden */
   }
   
   /* Controls container - position to right */
@@ -427,6 +430,8 @@ body.mobile-menu-open{
     margin-left: auto;
     margin-right: 8px;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1100; /* Ensure controls stay above nav-actions */
+    position: relative; /* Create stacking context */
   }
   
   /* Hide controls when mobile menu is open */
@@ -439,7 +444,7 @@ body.mobile-menu-open{
   .mobile-menu-toggle {
     display: block;
     order: 3;
-    z-index: 1300; /* Above nav-actions */
+    z-index: 1300; /* Above nav-actions and other elements */
     flex-shrink: 0;
     position: relative;
   }
@@ -455,8 +460,8 @@ body.mobile-menu-open{
     background: none;
     border: none;
     color: var(--bone);
-    font-size: 20px;
-    padding: clamp(4px, 1vw, 6px) clamp(6px, 1.5vw, 8px); /* Same padding as nav-link */
+    font-size: clamp(16px, 4vw, 20px); /* Responsive font size */
+    padding: clamp(2px, 0.8vw, 6px) clamp(4px, 1.2vw, 8px); /* Same padding as nav-link */
     cursor: pointer;
     border-radius: 6px; /* Same border radius as nav-link */
     transition: background-color 0.2s ease;
@@ -495,8 +500,8 @@ body.mobile-menu-open{
     flex-direction: row; /* Keep horizontal layout */
     align-items: center;
     justify-content: center;
-    gap: 4px; /* Reduced spacing */
-    padding: 0 18px; /* Removed extra right padding */
+    gap: clamp(2px, 0.8vw, 4px); /* Dynamic gap that gets smaller on tiny screens */
+    padding: 0 clamp(8px, 2vw, 18px); /* Dynamic padding */
     background: var(--panel-bg);
     transform: translateX(100%);
     transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), --scale-factor 0.2s ease;
@@ -520,8 +525,8 @@ body.mobile-menu-open{
   }
   
   .nav-link {
-    padding: clamp(4px, 1vw, 6px) clamp(6px, 1.5vw, 8px); /* Reduced padding */
-    font-size: clamp(11px, 3vw, 14px);
+    padding: clamp(2px, 0.8vw, 6px) clamp(4px, 1.2vw, 8px); /* More aggressive padding reduction */
+    font-size: clamp(9px, 2.8vw, 14px); /* Smaller minimum font size */
     border-radius: 6px;
     opacity: 0;
     transform: translateX(20px);
@@ -615,6 +620,32 @@ body.mobile-menu-open{
   .dropdown.open .dropdown-item:nth-child(3) { transition-delay: 0.15s; }
   .dropdown.open .dropdown-item:nth-child(4) { transition-delay: 0.2s; }
   .dropdown.open .dropdown-item:nth-child(5) { transition-delay: 0.25s; }
+}
+
+@media (max-width: 360px){ /* Ultra small screens */
+  .top-panel {
+    padding: clamp(4px, 1vh, 6px) clamp(6px, 1.5vw, 12px);
+    overflow: visible; /* Ensure nothing gets clipped */
+  }
+  
+  .brand {
+    --sub-fs: clamp(6px, 3.5vw, 12px); /* Even smaller scaling for ultra small screens */
+    z-index: 1150 !important; /* Force higher z-index on ultra small screens */
+  }
+  
+  .nav-actions {
+    gap: 1px; /* Minimal gap on ultra small screens */
+    padding: 0 clamp(4px, 1vw, 8px);
+  }
+  
+  .nav-link, .mobile-menu-close {
+    font-size: clamp(8px, 3.2vw, 11px);
+    padding: clamp(1px, 0.5vw, 3px) clamp(2px, 0.8vw, 4px);
+  }
+  
+  .mobile-menu-toggle {
+    z-index: 1350 !important; /* Ensure hamburger stays on top */
+  }
 }
 
 @media (max-width: 600px){ /* Updated smaller breakpoint */

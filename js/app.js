@@ -297,14 +297,13 @@ function initSmoothNavigation() {
     if (!navActions) return;
     
     const viewportWidth = window.innerWidth;
-    // Calculate scale factor: 1.0 at 900px, down to 0.8 at 320px
-    // Formula: scale = 1 - (900 - viewportWidth) * 0.2 / (900 - 320)
+    // Calculate scale factor: 1.0 at 900px, down to 0.6 at 280px for better mobile fit
     let scaleFactor = 1;
     
     if (viewportWidth < 900) {
-      const minWidth = 320;  // Minimum expected mobile width
+      const minWidth = 280;  // Lower minimum for very small screens
       const maxWidth = 900;  // Breakpoint width
-      const minScale = 0.8;  // Minimum scale (80% = 20% reduction)
+      const minScale = 0.6;  // More aggressive minimum scale (40% reduction)
       const maxScale = 1.0;  // Maximum scale
       
       scaleFactor = maxScale - ((maxWidth - viewportWidth) / (maxWidth - minWidth)) * (maxScale - minScale);
