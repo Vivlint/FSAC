@@ -66,28 +66,31 @@
         <span class="title-line subtitle">Science &amp; Art Club</span>
       </div>
     </a>
+    <div class="nav-controls">
+      <button class="control-btn theme-toggle" id="themeToggle" aria-label="Temayı değiştir">
+        <i class="fa-solid fa-sun theme-icon"></i>
+      </button>
+      <div class="lang-selector">
+        <button class="control-btn lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-globe"></i>
+          <span class="lang-text">TR</span>
+          <i class="fa-solid fa-chevron-down lang-caret"></i>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <a href="#" class="lang-option" data-lang="tr">🇹🇷 Türkçe</a>
+          <a href="#" class="lang-option" data-lang="en">🇺🇸 English</a>
+          <a href="#" class="lang-option" data-lang="de">🇩🇪 Deutsch</a>
+          <a href="#" class="lang-option" data-lang="fr">🇫🇷 Français</a>
+        </div>
+      </div>
+    </div>
     <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menüyü aç/kapat">
       <i class="fa-solid fa-bars"></i>
     </button>
     <nav class="nav-actions" aria-label="Birincil menü">
-      <div class="nav-controls">
-        <button class="control-btn theme-toggle" id="themeToggle" aria-label="Temayı değiştir">
-          <i class="fa-solid fa-sun theme-icon"></i>
-        </button>
-        <div class="lang-selector">
-          <button class="control-btn lang-toggle" id="langToggle" aria-haspopup="true" aria-expanded="false">
-            <i class="fa-solid fa-globe"></i>
-            <span class="lang-text">TR</span>
-            <i class="fa-solid fa-chevron-down lang-caret"></i>
-          </button>
-          <div class="lang-menu" id="langMenu">
-            <a href="#" class="lang-option" data-lang="tr">🇹🇷 Türkçe</a>
-            <a href="#" class="lang-option" data-lang="en">🇺🇸 English</a>
-            <a href="#" class="lang-option" data-lang="de">🇩🇪 Deutsch</a>
-            <a href="#" class="lang-option" data-lang="fr">🇫🇷 Français</a>
-          </div>
-        </div>
-      </div>
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Menüyü kapat">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <a class="nav-link" href="kadro.html" data-tr="Kadro" data-en="Staff" data-de="Personal" data-fr="Personnel">Kadro</a>
       <a class="nav-link" href="etkinlikler.html" data-tr="Etkinlikler" data-en="Events" data-de="Veranstaltungen" data-fr="Événements">Etkinlikler</a>
       <div class="dropdown">

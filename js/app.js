@@ -72,6 +72,16 @@ function initSmoothNavigation() {
     if (nowTopLevel && stillNested) {
       stillNested.remove();
     }
+    
+    // Add mobile menu close button if it doesn't exist
+    if (navActions && !navActions.querySelector('.mobile-menu-close')) {
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'mobile-menu-close';
+      closeBtn.id = 'mobileMenuClose';
+      closeBtn.setAttribute('aria-label', 'Menüyü kapat');
+      closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      navActions.insertBefore(closeBtn, navActions.firstChild);
+    }
   } catch (e) {
     // Fail gracefully if structure differs
     console.warn('Nav controls normalization skipped:', e);
@@ -85,13 +95,20 @@ function initSmoothNavigation() {
   function onScroll(){
     const y = window.scrollY || window.pageYOffset || 0;
     const t = clamp(y / SCROLL_RANGE, 0, 1);
-  // Keep padding-top constant; interpolate only padding-bottom
-  const padTop = 10; // px (initial from CSS)
-  const padBottomStart = 10;
-  const padBottomEnd = 6;    // target smaller padding
-  const padBottom = padBottomStart - (padBottomStart - padBottomEnd) * t;
-  header.style.paddingTop = padTop + 'px';
-  header.style.paddingBottom = padBottom + 'px';
+    
+    // Responsive padding values
+    const vw = window.innerWidth;
+    const baseLeftPadding = Math.max(16, Math.min(32, vw * 0.03)); // 3vw clamped
+    const baseTopPadding = Math.max(8, Math.min(12, vw * 0.015)); // 1.5vh equivalent
+    const baseRightPadding = Math.max(12, Math.min(16, vw * 0.02)); // 2vw clamped
+    
+    // Interpolate padding values
+    const padTop = baseTopPadding - (baseTopPadding * 0.3 * t); // Reduce by 30% on scroll
+    const padBottom = baseTopPadding - (baseTopPadding * 0.3 * t);
+    const padLeft = baseLeftPadding - (baseLeftPadding * 0.2 * t); // Reduce by 20% on scroll
+    const padRight = baseRightPadding - (baseRightPadding * 0.2 * t);
+    
+    header.style.padding = `${padTop}px ${padRight}px ${padBottom}px ${padLeft}px`;
 
     // Optional subtle shadow as you scroll
     const shadowAlpha = 0.35 * t;
@@ -261,37 +278,33 @@ function initSmoothNavigation() {
 
   // Mobile menu toggle with inline header animation
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
   const navActions = document.querySelector('.nav-actions');
   const body = document.body;
   
-  if (mobileMenuToggle && navActions) {
+  if (mobileMenuToggle && mobileMenuClose && navActions) {
     function openMobileMenu() {
       navActions.classList.add('mobile-open');
-      mobileMenuToggle.classList.add('menu-open');
       body.classList.add('mobile-menu-open');
-      mobileMenuToggle.querySelector('i').classList.replace('fa-bars', 'fa-xmark');
       mobileMenuToggle.setAttribute('aria-expanded', 'true');
-      mobileMenuToggle.setAttribute('aria-label', 'Menüyü kapat');
     }
     
     function closeMobileMenu() {
       navActions.classList.remove('mobile-open');
-      mobileMenuToggle.classList.remove('menu-open');
       body.classList.remove('mobile-menu-open');
-      mobileMenuToggle.querySelector('i').classList.replace('fa-xmark', 'fa-bars');
       mobileMenuToggle.setAttribute('aria-expanded', 'false');
-      mobileMenuToggle.setAttribute('aria-label', 'Menüyü aç');
     }
     
+    // Open menu with hamburger button
     mobileMenuToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isOpen = navActions.classList.contains('mobile-open');
-      
-      if (isOpen) {
-        closeMobileMenu();
-      } else {
-        openMobileMenu();
-      }
+      openMobileMenu();
+    });
+    
+    // Close menu with X button
+    mobileMenuClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileMenu();
     });
     
     // Close menu when clicking outside header
